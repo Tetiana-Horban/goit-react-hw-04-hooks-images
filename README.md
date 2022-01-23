@@ -1,88 +1,78 @@
-# react-homework-template
+Поиск изображений. Проведи рефакторинг кода задания Поиск изображений используя
+React-хуки.
 
-React course homework project template
+Напиши приложение поиска изображений по ключевому слову. Превью рабочего
+приложения смотри по ссылке.
 
-## Скрытые файлы
+Создай компоненты <Searchbar>, <ImageGallery>, <ImageGalleryItem>, <Loader>,
+<Button> и <Modal>. Готовые стили компонентов можно взять в файле styles.css и
+подправить под себя, если необходимо.
 
-Включите отображение скрытых файлов и папок в проводнике своей операционной
-системы, иначе вы не сможете выбрать и скопировать служебные файлы настроек
-проекта.
+Инструкция Pixabay API Для HTTP-запросов используй публичный сервис поиска
+изображений Pixabay. Зарегистрируйся и получи приватный ключ доступа.
 
-## Create React App
+URL-строка HTTP-запроса.
 
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app). You can learn
-more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-In the project directory, you can run next set of predefined scripts.
+https://pixabay.com/api/?q=cat&page=1&key=your_key&image_type=photo&orientation=horizontal&per_page=12
+Pixabay API поддерживает пагинацию, по умолчанию параметр page равен 1. Пусть в
+ответе приходит по 12 объектов, установлено в параметре per_page. Не забудь что
+при поиске по новому ключевому слову, необходимо сбрасывать значение page в 1.
 
-## Перед началом работы
+В ответе от апи приходит массив объектов, в которых тебе интересны только
+следущие свойства.
 
-Один раз на проект установить все зависимости.
+id - уникальный идентификатор webformatURL - ссылка на маленькое изображение для
+списка карточек largeImageURL - ссылка на большое изображение для модального
+окна Описание компонента <Searchbar> Компонент принимает один проп onSubmit -
+функцию для передачи значения инпута при сабмите формы. Создает DOM-элемент
+следующей структуры.
 
-```shell
-npm install
-```
+<header class="searchbar">
+  <form class="form">
+    <button type="submit" class="button">
+      <span class="button-label">Search</span>
+    </button>
 
-## Разработка
+    <input
+      class="input"
+      type="text"
+      autocomplete="off"
+      autofocus
+      placeholder="Search images and photos"
+    />
 
-Запустить режим разработки.
+  </form>
+</header>
+Описание компонента <ImageGallery>
+Список карточек изображений. Создает DOM-элемент следующей структуры.
 
-```shell
-npm start
-```
+<ul class="gallery">
+  <!-- Набор <li> с изображениями -->
+</ul>
+Описание компонента <ImageGalleryItem>
+Компонент элемента списка с изображением. Создает DOM-элемент следующей структуры.
 
-Runs the app in the development mode. Open
-[http://localhost:3000](http://localhost:3000) to view it in your browser.
+<li class="gallery-item">
+  <img src="" alt="" />
+</li>
+Описание компонента <Button>
+При нажатии на кнопку Load more должна догружаться следующая порция изображений и рендериться вместе с предыдущими. Кнопка должна рендерится только тогда, когда есть какие-то загруженные изобаржения. Если массив изображений пуст, кнопка не рендерится.
 
-The page will reload when you make changes. You may also see any lint errors in
-the console.
+Описание компонента <Loader> Компонент спинера, отображется пока идет загрузка
+изобаржений. Используй любой готовый компонент, например react-loader-spinner
+или любой другой.
 
-## Деплой
+Описание компонента <Modal> При клике по элементу галереи должно открываться
+модальное окно с темным оверлеем и отображаться большая версия изображения.
+Модальное окно должно закрываться по нажатию клавиши ESC или по клику на
+оверлее.
 
-Продакшн версия проекта будет автоматически собираться и деплоиться на GitHub
-Pages, в ветку `gh-pages`, каждый раз когда обновляется ветка `main`. Например,
-после прямого пуша или принятого пул-реквеста. Для этого необходимо в файле
-`package.json` отредактировать поле `homepage`, заменив `your_username` и
-`your_repo_name` на свои.
+Внешний вид похож на функционал этого VanillaJS-плагина, только вместо белого
+модального окна рендерится изображение (в примере нажми Run). Анимацию делать не
+нужно!
 
-```json
-"homepage": "https://your_username.github.io/your_repo_name/"
-```
-
-На всякий случай стоит зайти на GitHub в настройки репозитория (`Settings` >
-`Pages`) и убедиться что продакшн версии файлов раздаются из папки `/root` ветки
-`gh-pages`.
-
-![GitHub Pages settings](./gh-pages-settings.png)
-
-### Статус деплоя
-
-Статус деплоя крайнего коммита отображается иконкой возле его идентификатора.
-
-- Желтый цвет - выполняется сборка и деплой проекта.
-- Зеленый цвет - деплой завершился успешно.
-- Красный цвет - во время сборки или деплоя произошла ошибка.
-
-Более детальную информацию о статусе можно посмотреть кликнув по иконке, и в
-выпадающем окне перейти по ссылке `Details`.
-
-![Deployment status](./status.png)
-
-### Живая страница
-
-Через какое-то время живую страницу можно будет посмотреть по адресу указанному
-в отредактированном свойстве `homepage`, например
-[https://goitacademy.github.io/react-homework-template](https://goitacademy.github.io/react-homework-template).
-
-### Маршрутизация
-
-Если приложение использует библиотеку `react-router-dom` для маршрутизации,
-необходимо дополнительно настроить компонент `<BrowserRouter>`, передав в пропе
-`basename` точное название вашего репозитория.
-
-```jsx
-<BrowserRouter basename="/your_repo_name/">
-  <App />
-</BrowserRouter>
-```
+<div class="overlay">
+  <div class="modal">
+    <img src="" alt="" />
+  </div>
+</div>
